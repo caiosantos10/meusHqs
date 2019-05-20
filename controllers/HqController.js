@@ -15,6 +15,10 @@ class HqController{
             
             event.preventDefault();
 
+            let btn = this.formEl.querySelector("[type=submit]");
+
+            btn.disabled = true;  
+
             let values = this.getValues();
 
             console.log(values);
@@ -25,6 +29,10 @@ class HqController{
                     values.foto = content;
 
                     this.addLine(values);
+
+                    this.formEl.reset();
+
+                    btn.disabled = false;
 
                     console.log(values);
 
@@ -75,8 +83,16 @@ class HqController{
     getValues(){
 
         let hq = {};
+        let isValid = true;
 
         [...this.formEl.elements].forEach(function(field, index){
+
+            if (['titulo'].indexOf(field.name) > -1 && !field.name){
+
+                field.parentElement.classList.add('has-error');
+                isValid = false;
+
+            }
 
             if(field.name == "estado" ){
                 
@@ -93,6 +109,10 @@ class HqController{
         
             }
         });
+
+        if(!isValid){
+            return false;
+        }
         
         return new HQ(
             hq.titulo, 
@@ -115,7 +135,7 @@ class HqController{
 
         tr.innerHTML =  `<tr>
                         <td><img src="${dataHq.foto}" alt="User Image" class="img-circle img-sm"></td>
-                        <td>${dataHq.titulo}</td>
+                        <td>${dataHq.titulo} #${dataHq.numero}</td>
                         <td>${dataHq.universo}</td>
                         <td>${(dataHq.foiLido)? 'Sim' : 'Não'}</td>
                         <td>${dataHq.dataLancamento}</td>
