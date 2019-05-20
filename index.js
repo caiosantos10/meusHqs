@@ -2,8 +2,10 @@ var fields = document.querySelectorAll("#form-hq-create [name]");
 var hq = {};
 
 function addLine(dataHq){
-    var tr = document.createElement("tr");
-    tr.innerHTML = `<tr>
+
+    console.log(dataHq);
+
+    document.getElementById("table-hqs").innerHTML = `<tr>
                     <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
                     <td>${dataHq.titulo}</td>
                     <td>${dataHq.universo}</td>
@@ -15,8 +17,6 @@ function addLine(dataHq){
                     </td>
                   </tr>
                      `
-
-    document.getElementById("table-hqs").appendChild(tr);
 }
 
 document.getElementById("form-hq-create").addEventListener("submit", function(event){
@@ -35,9 +35,20 @@ document.getElementById("form-hq-create").addEventListener("submit", function(ev
     
         }
     });
-    //console.log(hq);
+    
+    var objectHQ = new HQ(
+        hq.titulo, 
+        hq.numero, 
+        hq.universo, 
+        hq.estado, 
+        hq.lancamento, 
+        hq.genero,
+        hq.saga, 
+        hq.foto, 
+        hq.lido);
 
-    addLine(hq);
+
+    addLine(objectHQ);
 
     
 });
