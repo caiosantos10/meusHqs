@@ -14,10 +14,58 @@ class HqController{
        this.formEl.addEventListener("submit", (event)=>{
             
             event.preventDefault();
+
+            let values = this.getValues();
+
+            console.log(values);
+
+            this.getPhoto().then(
+                (content)=>{
+                    
+                    values.foto = content;
+
+                    this.addLine(values);
+
+                    console.log(values);
+
+                }, 
+                (e)=>{
+                    console.error(e);
+                }
+            );     
             
-            this.addLine(this.getValues());
-        
-            
+        });
+    }
+
+    getPhoto(){
+
+        return new Promise((resolve, reject)=>{
+
+            let fileReader = new FileReader();
+
+            let elements = [...this.formEl.elements].filter(item=>{
+    
+                if(item.name === 'foto'){
+                    return item;
+                }
+    
+            });
+    
+            let file = elements[0].files[0];
+    
+            fileReader.onload = ()=>{
+    
+                resolve(fileReader.result)
+            };
+
+            fileReader.onerror = (e)=>{
+
+                reject(e);
+
+            };
+    
+            fileReader.readAsDataURL(file);
+
         });
     }
 
@@ -58,11 +106,11 @@ class HqController{
         //console.log(dataHq);
     
         this.tableEl.innerHTML = `<tr>
-                        <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
+                        <td><img src="${dataHq.foto}" alt="User Image" class="img-circle img-sm"></td>
                         <td>${dataHq.titulo}</td>
                         <td>${dataHq.universo}</td>
-                        <td>${dataHq.lido}</td>
-                        <td>${dataHq.lancamento}</td>
+                        <td>${dataHq.foiLido}</td>
+                        <td>${dataHq.dataLancamento}</td>
                         <td>
                           <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
                           <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
