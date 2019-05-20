@@ -64,8 +64,11 @@ class HqController{
 
             };
     
-            fileReader.readAsDataURL(file);
-
+            if (file){
+                fileReader.readAsDataURL(file);
+            } else {
+                resolve("dist/img/boxed-bg.jpg")
+            }
         });
     }
 
@@ -81,6 +84,10 @@ class HqController{
                     hq[field.name] = field.value;
                 }
         
+            } else if (field.name === "lido"){
+
+                hq[field.name] = field.checked;
+
             } else {
                 hq[field.name] = field.value;
         
@@ -104,12 +111,13 @@ class HqController{
     addLine(dataHq){
 
         //console.log(dataHq);
-    
-        this.tableEl.innerHTML = `<tr>
+        let tr = document.createElement("tr");
+
+        tr.innerHTML =  `<tr>
                         <td><img src="${dataHq.foto}" alt="User Image" class="img-circle img-sm"></td>
                         <td>${dataHq.titulo}</td>
                         <td>${dataHq.universo}</td>
-                        <td>${dataHq.foiLido}</td>
+                        <td>${(dataHq.foiLido)? 'Sim' : 'Não'}</td>
                         <td>${dataHq.dataLancamento}</td>
                         <td>
                           <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
@@ -117,6 +125,8 @@ class HqController{
                         </td>
                       </tr>
                          `
+    
+        this.tableEl.appendChild(tr);
     }
 
 }
