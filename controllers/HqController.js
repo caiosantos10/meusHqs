@@ -21,7 +21,7 @@ class HqController{
 
             let values = this.getValues();
 
-            console.log(values);
+           // console.log(values);
 
             this.getPhoto().then(
                 (content)=>{
@@ -86,10 +86,10 @@ class HqController{
         let isValid = true;
 
         [...this.formEl.elements].forEach(function(field, index){
-
-            if (['titulo'].indexOf(field.name) > -1 && !field.name){
-
-                field.parentElement.classList.add('has-error');
+            
+            if (['titulo'].indexOf(field.name) > -1 && !field.value){
+                
+                field.parentElement.classList.add("has-error");
                 isValid = false;
 
             }
@@ -112,19 +112,21 @@ class HqController{
 
         if(!isValid){
             return false;
+        } else {
+            
+            return new HQ(
+                hq.titulo, 
+                hq.numero, 
+                hq.universo, 
+                hq.estado, 
+                hq.lancamento, 
+                hq.genero,
+                hq.saga, 
+                hq.foto, 
+                hq.lido
+            );
+
         }
-        
-        return new HQ(
-            hq.titulo, 
-            hq.numero, 
-            hq.universo, 
-            hq.estado, 
-            hq.lancamento, 
-            hq.genero,
-            hq.saga, 
-            hq.foto, 
-            hq.lido
-        );
 
     }
 
